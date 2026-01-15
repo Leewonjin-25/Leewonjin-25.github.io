@@ -304,166 +304,489 @@ print(greet('홍길동'))
 - [04_functions.py](file:///c:/Users/USER/Desktop/04_functions.py) - 함수
 - [05_list_operations.py](file:///c:/Users/USER/Desktop/05_list_operations.py) - 리스트 조작
 
-# 🛣️ 도로의 분류 퀴즈
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛣️ 도로의 분류 퀴즈</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-도로의 종류와 분류 기준에 대한 퀴즈입니다. 각 문제를 풀어보고 정답을 확인하세요!
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
----
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
 
-## 퀴즈 1: 도로법상 도로의 종류
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
 
-**도로법에 따른 도로의 분류가 아닌 것은?**
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
 
-**선택지:**
-1. 고속국도
-2. 일반국도
-3. 특별시도·광역시도
-4. 농어촌도로
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
 
-<details>
-<summary>정답 보기</summary>
+        .quiz-content {
+            padding: 40px;
+        }
 
-**정답: 4번 (농어촌도로)**
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-도로법상 도로는 다음과 같이 분류됩니다:
-- **고속국도**: 자동차 전용 고속도로
-- **일반국도**: 주요 도시를 연결하는 도로
-- **특별시도·광역시도**: 특별시 또는 광역시 관할 도로
-- **지방도**: 지방 지역을 연결하는 도로
-- **시도**: 시 관할 도로
-- **군도**: 군 관할 도로
-- **구도**: 구 관할 도로
+        .question-card:hover {
+            transform: translateY(-5px);
+        }
 
-농어촌도로는 별도의 법률(농어촌도로 정비법)에 따른 분류입니다.
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
 
-</details>
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
 
----
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-## 퀴즈 2: 도로의 기능별 분류
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
 
-**도로를 기능에 따라 분류할 때, 주로 장거리 통과 교통을 처리하며 접근 제한이 있는 도로는?**
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
 
-**선택지:**
-1. 집산도로
-2. 국지도로
-3. 주간선도로
-4. 보조간선도로
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
 
-<details>
-<summary>정답 보기</summary>
+        .option.correct {
+            border-color: #27ae60;
+            background: #d4edda;
+            color: #155724;
+        }
 
-**정답: 3번 (주간선도로)**
+        .option.incorrect {
+            border-color: #e74c3c;
+            background: #f8d7da;
+            color: #721c24;
+        }
 
-도로의 기능별 분류:
-- **주간선도로**: 도시 내 주요 지역 간 연결, 장거리 통과 교통 처리, 접근 제한
-- **보조간선도로**: 주간선도로를 보조하며 중거리 교통 처리
-- **집산도로**: 근린 주거 지역의 교통을 간선도로로 연결
-- **국지도로**: 주거 지역 내부의 교통을 처리, 접근 기능 중심
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
 
-</details>
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            display: none;
+        }
 
----
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
 
-## 퀴즈 3: 고속도로의 특징
+        .explanation h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
 
-**고속국도(고속도로)에 대한 설명으로 옳지 않은 것은?**
+        .explanation p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
 
-**선택지:**
-1. 자동차 전용 도로이다
-2. 신호등이 설치되어 있지 않다
-3. 보행자와 자전거의 통행이 금지된다
-4. 최저 속도 제한이 없다
+        .explanation ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
 
-<details>
-<summary>정답 보기</summary>
+        .explanation li {
+            margin: 5px 0;
+            color: #34495e;
+        }
 
-**정답: 4번 (최저 속도 제한이 없다)**
+        .score-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
 
-고속국도의 특징:
-- ✅ 자동차 전용 도로 (이륜차, 보행자, 자전거 통행 금지)
-- ✅ 신호등 없음 (입체 교차로만 사용)
-- ✅ 접근 제한 (인터체인지를 통해서만 진입 가능)
-- ✅ **최저 속도 제한 있음** (일반적으로 50km/h)
-- ✅ 최고 속도 제한 (일반적으로 100-120km/h)
+        .score-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
 
-</details>
+        .score-container h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
 
----
+        .score-number {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
 
-## 퀴즈 4: 도로의 구조별 분류
+        .score-message {
+            font-size: 1.3em;
+            margin-top: 15px;
+        }
 
-**다음 중 도로를 구조에 따라 분류한 것으로 올바른 것은?**
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
 
-**선택지:**
-1. 평면도로, 입체도로
-2. 국도, 지방도
-3. 간선도로, 집산도로
-4. 포장도로, 비포장도로
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
 
-<details>
-<summary>정답 보기</summary>
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-**정답: 1번 (평면도로, 입체도로)**
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-도로의 구조별 분류:
-- **평면도로**: 교차로가 평면 교차하는 일반적인 도로
-- **입체도로**: 교차로가 입체 교차하는 도로 (고가도로, 지하도로, 고속도로 등)
+        .reset-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid white;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
 
-참고:
-- 2번은 관리 주체에 따른 분류
-- 3번은 기능에 따른 분류
-- 4번은 포장 상태에 따른 분류
+        .reset-btn:hover {
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛣️ 도로의 분류 퀴즈</h1>
+            <p>도로의 종류와 분류 기준에 대한 퀴즈입니다</p>
+        </div>
 
-</details>
+        <div class="quiz-content">
+            <!-- 퀴즈 1 -->
+            <div class="question-card">
+                <span class="question-number">퀴즈 1</span>
+                <div class="question-text">도로법에 따른 도로의 분류가 아닌 것은?</div>
+                <div class="options">
+                    <div class="option" data-question="1" data-answer="1">1. 고속국도</div>
+                    <div class="option" data-question="1" data-answer="2">2. 일반국도</div>
+                    <div class="option" data-question="1" data-answer="3">3. 특별시도·광역시도</div>
+                    <div class="option" data-question="1" data-answer="4">4. 농어촌도로</div>
+                </div>
+                <div class="explanation" data-question="1">
+                    <h4>✅ 정답: 4번 (농어촌도로)</h4>
+                    <p>도로법상 도로는 다음과 같이 분류됩니다:</p>
+                    <ul>
+                        <li><strong>고속국도</strong>: 자동차 전용 고속도로</li>
+                        <li><strong>일반국도</strong>: 주요 도시를 연결하는 도로</li>
+                        <li><strong>특별시도·광역시도</strong>: 특별시 또는 광역시 관할 도로</li>
+                        <li><strong>지방도</strong>: 지방 지역을 연결하는 도로</li>
+                        <li><strong>시도, 군도, 구도</strong>: 각 지방자치단체 관할 도로</li>
+                    </ul>
+                    <p>농어촌도로는 별도의 법률(농어촌도로 정비법)에 따른 분류입니다.</p>
+                </div>
+            </div>
 
----
+            <!-- 퀴즈 2 -->
+            <div class="question-card">
+                <span class="question-number">퀴즈 2</span>
+                <div class="question-text">도로를 기능에 따라 분류할 때, 주로 장거리 통과 교통을 처리하며 접근 제한이 있는 도로는?</div>
+                <div class="options">
+                    <div class="option" data-question="2" data-answer="1">1. 집산도로</div>
+                    <div class="option" data-question="2" data-answer="2">2. 국지도로</div>
+                    <div class="option" data-question="2" data-answer="3">3. 주간선도로</div>
+                    <div class="option" data-question="2" data-answer="4">4. 보조간선도로</div>
+                </div>
+                <div class="explanation" data-question="2">
+                    <h4>✅ 정답: 3번 (주간선도로)</h4>
+                    <p>도로의 기능별 분류:</p>
+                    <ul>
+                        <li><strong>주간선도로</strong>: 도시 내 주요 지역 간 연결, 장거리 통과 교통 처리, 접근 제한</li>
+                        <li><strong>보조간선도로</strong>: 주간선도로를 보조하며 중거리 교통 처리</li>
+                        <li><strong>집산도로</strong>: 근린 주거 지역의 교통을 간선도로로 연결</li>
+                        <li><strong>국지도로</strong>: 주거 지역 내부의 교통을 처리, 접근 기능 중심</li>
+                    </ul>
+                </div>
+            </div>
 
-## 퀴즈 5: 도로 폭에 따른 분류
+            <!-- 퀴즈 3 -->
+            <div class="question-card">
+                <span class="question-number">퀴즈 3</span>
+                <div class="question-text">고속국도(고속도로)에 대한 설명으로 옳지 않은 것은?</div>
+                <div class="options">
+                    <div class="option" data-question="3" data-answer="1">1. 자동차 전용 도로이다</div>
+                    <div class="option" data-question="3" data-answer="2">2. 신호등이 설치되어 있지 않다</div>
+                    <div class="option" data-question="3" data-answer="3">3. 보행자와 자전거의 통행이 금지된다</div>
+                    <div class="option" data-question="3" data-answer="4">4. 최저 속도 제한이 없다</div>
+                </div>
+                <div class="explanation" data-question="3">
+                    <h4>✅ 정답: 4번 (최저 속도 제한이 없다)</h4>
+                    <p>고속국도의 특징:</p>
+                    <ul>
+                        <li>✅ 자동차 전용 도로 (이륜차, 보행자, 자전거 통행 금지)</li>
+                        <li>✅ 신호등 없음 (입체 교차로만 사용)</li>
+                        <li>✅ 접근 제한 (인터체인지를 통해서만 진입 가능)</li>
+                        <li>✅ <strong>최저 속도 제한 있음</strong> (일반적으로 50km/h)</li>
+                        <li>✅ 최고 속도 제한 (일반적으로 100-120km/h)</li>
+                    </ul>
+                </div>
+            </div>
 
-**도로교통법상 '좁은 도로'로 분류되는 기준은?**
+            <!-- 퀴즈 4 -->
+            <div class="question-card">
+                <span class="question-number">퀴즈 4</span>
+                <div class="question-text">다음 중 도로를 구조에 따라 분류한 것으로 올바른 것은?</div>
+                <div class="options">
+                    <div class="option" data-question="4" data-answer="1">1. 평면도로, 입체도로</div>
+                    <div class="option" data-question="4" data-answer="2">2. 국도, 지방도</div>
+                    <div class="option" data-question="4" data-answer="3">3. 간선도로, 집산도로</div>
+                    <div class="option" data-question="4" data-answer="4">4. 포장도로, 비포장도로</div>
+                </div>
+                <div class="explanation" data-question="4">
+                    <h4>✅ 정답: 1번 (평면도로, 입체도로)</h4>
+                    <p>도로의 구조별 분류:</p>
+                    <ul>
+                        <li><strong>평면도로</strong>: 교차로가 평면 교차하는 일반적인 도로</li>
+                        <li><strong>입체도로</strong>: 교차로가 입체 교차하는 도로 (고가도로, 지하도로, 고속도로 등)</li>
+                    </ul>
+                    <p>참고:</p>
+                    <ul>
+                        <li>2번은 관리 주체에 따른 분류</li>
+                        <li>3번은 기능에 따른 분류</li>
+                        <li>4번은 포장 상태에 따른 분류</li>
+                    </ul>
+                </div>
+            </div>
 
-**선택지:**
-1. 폭 4m 미만
-2. 폭 6m 미만
-3. 폭 8m 미만
-4. 폭 10m 미만
+            <!-- 퀴즈 5 -->
+            <div class="question-card">
+                <span class="question-number">퀴즈 5</span>
+                <div class="question-text">도로교통법상 '좁은 도로'로 분류되는 기준은?</div>
+                <div class="options">
+                    <div class="option" data-question="5" data-answer="1">1. 폭 4m 미만</div>
+                    <div class="option" data-question="5" data-answer="2">2. 폭 6m 미만</div>
+                    <div class="option" data-question="5" data-answer="3">3. 폭 8m 미만</div>
+                    <div class="option" data-question="5" data-answer="4">4. 폭 10m 미만</div>
+                </div>
+                <div class="explanation" data-question="5">
+                    <h4>✅ 정답: 2번 (폭 6m 미만)</h4>
+                    <p>도로 폭에 따른 분류:</p>
+                    <ul>
+                        <li><strong>광로(廣路)</strong>: 폭 25m 이상</li>
+                        <li><strong>대로(大路)</strong>: 폭 12m 이상 25m 미만</li>
+                        <li><strong>중로(中路)</strong>: 폭 8m 이상 12m 미만</li>
+                        <li><strong>소로(小路)</strong>: 폭 8m 미만</li>
+                        <li><strong>좁은 도로</strong>: 폭 6m 미만 (도로교통법상 특별 규정 적용)</li>
+                    </ul>
+                </div>
+            </div>
 
-<details>
-<summary>정답 보기</summary>
+            <div style="text-align: center;">
+                <button class="submit-btn" id="submitBtn">결과 확인하기</button>
+            </div>
 
-**정답: 2번 (폭 6m 미만)**
+            <div class="score-container" id="scoreContainer">
+                <h2>🎉 퀴즈 완료!</h2>
+                <div class="score-number" id="scoreNumber">0/5</div>
+                <div class="score-message" id="scoreMessage"></div>
+                <button class="reset-btn" onclick="location.reload()">다시 풀기</button>
+            </div>
+        </div>
+    </div>
 
-도로 폭에 따른 분류:
-- **광로(廣路)**: 폭 25m 이상
-  - 광로 1류: 40m 이상
-  - 광로 2류: 30m 이상 40m 미만
-  - 광로 3류: 25m 이상 30m 미만
-- **대로(大路)**: 폭 12m 이상 25m 미만
-  - 대로 1류: 20m 이상 25m 미만
-  - 대로 2류: 15m 이상 20m 미만
-  - 대로 3류: 12m 이상 15m 미만
-- **중로(中路)**: 폭 8m 이상 12m 미만
-- **소로(小路)**: 폭 8m 미만
-- **좁은 도로**: 폭 6m 미만 (도로교통법상 특별 규정 적용)
+    <script>
+        const correctAnswers = {
+            1: 4,
+            2: 3,
+            3: 4,
+            4: 1,
+            5: 2
+        };
 
-</details>
+        let userAnswers = {};
 
----
+        // 옵션 클릭 이벤트
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionNum = this.dataset.question;
+                const answerNum = parseInt(this.dataset.answer);
+                
+                // 같은 질문의 다른 옵션들 선택 해제
+                document.querySelectorAll(`.option[data-question="${questionNum}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // 현재 옵션 선택
+                this.classList.add('selected');
+                userAnswers[questionNum] = answerNum;
+                
+                // 모든 문제를 풀었는지 확인
+                if (Object.keys(userAnswers).length === 5) {
+                    document.getElementById('submitBtn').disabled = false;
+                }
+            });
+        });
 
-## 📊 점수 계산
+        // 결과 확인 버튼
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            let score = 0;
+            
+            // 각 문제 채점
+            for (let q = 1; q <= 5; q++) {
+                const userAnswer = userAnswers[q];
+                const correctAnswer = correctAnswers[q];
+                
+                // 모든 옵션 비활성화
+                document.querySelectorAll(`.option[data-question="${q}"]`).forEach(opt => {
+                    opt.classList.add('disabled');
+                    const answerNum = parseInt(opt.dataset.answer);
+                    
+                    if (answerNum === correctAnswer) {
+                        opt.classList.add('correct');
+                    } else if (answerNum === userAnswer && userAnswer !== correctAnswer) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                // 정답 확인
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+                
+                // 해설 표시
+                document.querySelector(`.explanation[data-question="${q}"]`).classList.add('show');
+            }
+            
+            // 점수 표시
+            document.getElementById('scoreNumber').textContent = `${score}/5`;
+            
+            // 메시지 설정
+            let message = '';
+            if (score === 5) {
+                message = '🏆 완벽합니다! 도로 분류에 대해 잘 알고 계십니다!';
+            } else if (score === 4) {
+                message = '🌟 훌륭합니다! 도로 체계를 잘 이해하고 있습니다!';
+            } else if (score === 3) {
+                message = '👍 좋습니다! 조금만 더 공부하면 완벽해질 거예요!';
+            } else if (score === 2) {
+                message = '📚 괜찮습니다! 도로 관련 법규를 복습해보세요!';
+            } else {
+                message = '💪 화이팅! 도로법과 도로교통법을 학습해보세요!';
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+            document.getElementById('scoreContainer').classList.add('show');
+            
+            // 버튼 숨기기
+            this.style.display = 'none';
+            
+            // 점수 컨테이너로 스크롤
+            document.getElementById('scoreContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
 
-정답 개수를 세어보세요!
-
-- **5개**: 🏆 완벽합니다! 도로 분류에 대해 잘 알고 계십니다!
-- **4개**: 🌟 훌륭합니다! 도로 체계를 잘 이해하고 있습니다!
-- **3개**: 👍 좋습니다! 조금만 더 공부하면 완벽해질 거예요!
-- **2개**: 📚 괜찮습니다! 도로 관련 법규를 복습해보세요!
-- **0-1개**: 💪 화이팅! 도로법과 도로교통법을 학습해보세요!
-
-## 📚 참고 자료
-
-- 도로법
-- 도로교통법
-- 도시계획시설의 결정·구조 및 설치기준에 관한 규칙
-- 도로의 구조·시설 기준에 관한 규칙
+        // 초기 상태에서 제출 버튼 비활성화
+        document.getElementById('submitBtn').disabled = true;
+    </script>
+</body>
+</html>
